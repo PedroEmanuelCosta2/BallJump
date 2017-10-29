@@ -12,8 +12,6 @@ import java.io.Console;
  */
 
 public class MainThread extends Thread {
-    private int FPS = 30;
-    private double averageFPS;
     private SurfaceHolder surfaceHolder;
     private GamePanel gamePanel;
     private boolean running;
@@ -27,12 +25,8 @@ public class MainThread extends Thread {
 
     @Override
     public void run() {
-        long startTime, timeMillis, waitTime, totalTime = 0, frameCount = 0, targetTime = 1000/FPS;
-
         while (running){
-            startTime = System.nanoTime();
             canvas = null;
-
             try {
                 canvas = this.surfaceHolder.lockCanvas();
 
@@ -51,23 +45,6 @@ public class MainThread extends Thread {
                         e.printStackTrace();
                     }
                 }
-            }
-
-            timeMillis = (System.nanoTime() - startTime)/1000000;
-            waitTime = targetTime - timeMillis;
-
-            try {
-                this.sleep(waitTime);
-            }catch(Exception e){}
-
-            totalTime += System.nanoTime()-startTime;
-            frameCount++;
-
-            if(frameCount == FPS){
-                averageFPS = 1000/((totalTime/frameCount)/1000000);
-                frameCount = 0;
-                totalTime = 0;
-                System.out.println(averageFPS);
             }
         }
     }
