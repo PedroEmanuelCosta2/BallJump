@@ -16,12 +16,6 @@ public abstract class ObjectGame {
     }
 
     /**
-     *  SETTERS
-     */
-    public void setX(int x) {this.x = x;}
-    public void setY(int y) {this.y = y;}
-
-    /**
      *  GETTERS
      */
     public int getX() {return x;}
