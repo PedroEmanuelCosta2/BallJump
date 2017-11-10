@@ -6,9 +6,7 @@ import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
 import java.util.ArrayList;
-import java.util.regex.Matcher;
 
 /**
  * Created by pedrocosta on 28.10.17.
@@ -22,6 +20,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     private BackGround backGround;
     private Player player;
     private ArrayList<Plateform> plateformArrayList;
+    private SensorAccelerationActivity sensorAccelerationActivity;
+
+
 
     public GamePanel(Context context){
         super(context);
@@ -33,6 +34,29 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
         //Make gamePanel focusable so it can handle events
         setFocusable(true);
+
+        //sensorAccelerationActivity = new SensorAccelerationActivity(this);
+    }
+
+    public void updatePlayer(float value)
+    {
+        if(player!=null)
+        {
+            player.setPlaying(true);
+            if(value<-0.1)
+            {
+                player.setMoving(-1);
+            }
+            else if(value>0.1)
+            {
+                player.setMoving(1);
+            }
+            else
+            {
+                player.setMoving(0);
+            }
+        }
+
     }
 
     @Override
@@ -138,4 +162,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
             canvas.restoreToCount(savedState);
         }
     }
+
+
 }

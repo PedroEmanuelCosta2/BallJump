@@ -29,9 +29,9 @@ public class Player extends ObjectGame{
 
     public void update(){
         if(moving == 1){
-            dx = 12;
+            dx = 5;
         }else if(moving == -1){
-            dx = -12;
+            dx = -5;
         }else{
             dx=0;
         }
@@ -45,7 +45,7 @@ public class Player extends ObjectGame{
             x = GamePanel.WIDTH;
         }
 
-        constantJump();
+        //constantJump();
     }
 
     public boolean collision(Plateform p) {
