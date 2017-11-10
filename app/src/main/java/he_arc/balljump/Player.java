@@ -16,11 +16,13 @@ public class Player extends ObjectGame{
     private int incrementJump = 0;
     private boolean playing = false;
     private boolean jumping = false;
+    private int speed=20;
+    private int gravity=1;
 
-    public Player(Bitmap image, int width, int height){
+    public Player(Bitmap image){
         this.image = image;
-        this.width = width;
-        this.height = height;
+        this.width = 50;
+        this.height = 100;
         this.x = GamePanel.WIDTH/2 - this.width/2;
         this.y = GamePanel.HEIGHT - this.height;
         this.dx = 0;
@@ -45,21 +47,32 @@ public class Player extends ObjectGame{
             x = GamePanel.WIDTH;
         }
 
-        //constantJump();
+        constantJump();
+    }
+
+    public boolean collision(Plateform p) {
+        if ((x >= p.getX())
+            && (x + width <= p.getX() + p.getWidth())
+            && (y + height <= p.getY()))
+        {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public void jump()
+    {
+        speed=20;
     }
 
     private void constantJump() {
-        if(!jumping){
-            incrementJump = 0;
-            jumping = true;
-        }
 
-        incrementJump+= 12;
+        velocity = -speed;
 
-        velocity = -12;
-
-        if (incrementJump >= 100){
-            velocity = 12;
+        if(speed>-20)
+        {
+            speed-=gravity;
         }
 
         dy = velocity;

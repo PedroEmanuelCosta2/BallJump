@@ -1,20 +1,12 @@
 package he_arc.balljump;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
-import static android.content.Context.SENSOR_SERVICE;
-import static android.support.v4.content.ContextCompat.startActivity;
+import java.util.ArrayList;
 
 /**
  * Created by pedrocosta on 28.10.17.
@@ -27,6 +19,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     private MainThread mainThread;
     private BackGround backGround;
     private Player player;
+    private ArrayList<Plateform> plateformArrayList;
     private SensorAccelerationActivity sensorAccelerationActivity;
 
 
@@ -88,7 +81,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
         backGround = new BackGround(BitmapFactory.decodeResource(getResources(), R.drawable.background));
-        player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.doodler),100,100);
+        player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.doodler));
+        plateformArrayList = new ArrayList<Plateform>();
+        plateformsGeneration(150, 60);
         mainThread.setRunning(true);
         mainThread.start();
     }
@@ -97,16 +92,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
-                player.setPlaying(true);
-                if (event.getX() > getWidth()/2){
-                    player.setMoving(1);
-                }else {
-                    player.setMoving(-1);
-                }
-                return true;
-            case MotionEvent.ACTION_UP:
-                player.setMoving(0);
-                return false;
+                player.jump();
+
         }
 
         return super.onTouchEvent(event);
@@ -115,6 +102,42 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     public void update(){
         if(player.isPlaying()){
             player.update();
+
+            if (player.getY() < HEIGHT/4){
+                //plateformsGeneration(HEIGHT - HEIGHT/4, 60);
+            }
+
+            for(Plateform p : plateformArrayList)
+            {
+                //if(player.collision(p))
+                //    player.jump(p);
+            }
+
+            plateformsDestruction();
+        }
+    }
+
+    private void plateformsDestruction()
+    {
+        for(int i = 0; i < plateformArrayList.size(); i++){
+            if(plateformArrayList.get(i).outOfScreen()){
+                plateformArrayList.remove(i);
+            }
+        }
+    }
+
+    private void plateformsGeneration(int limit, int decrement)
+    {
+        for (int i = HEIGHT; i > limit ; i-= decrement){
+            Plateform plateform = new Plateform((WIDTH-50) - ((int) (Math.random() * ((500) + 1))) , HEIGHT - i);
+            plateformArrayList.add(plateform);
+        }
+    }
+
+    private void drawPlateforms(Canvas canvas)
+    {
+        for(Plateform p : plateformArrayList){
+            p.draw(canvas);
         }
     }
 
@@ -127,6 +150,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
             canvas.scale(scaleFactorX, scaleFactorY);
             backGround.draw(canvas);
             player.draw(canvas);
+            drawPlateforms(canvas);
             canvas.restoreToCount(savedState);
         }
     }
