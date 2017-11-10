@@ -1,9 +1,12 @@
 package he_arc.balljump;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+
+import static android.support.v4.content.ContextCompat.startActivity;
 
 public class Game extends AppCompatActivity {
 
@@ -11,12 +14,10 @@ public class Game extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Set title off
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        //Set full screen
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(new GamePanel(this));
+        Intent i = new Intent(Game.this, SensorAccelerationActivity.class);
+
+        startActivity(i);
     }
 }

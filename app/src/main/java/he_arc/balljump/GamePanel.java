@@ -1,11 +1,20 @@
 package he_arc.balljump;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import static android.content.Context.SENSOR_SERVICE;
+import static android.support.v4.content.ContextCompat.startActivity;
 
 /**
  * Created by pedrocosta on 28.10.17.
@@ -18,6 +27,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     private MainThread mainThread;
     private BackGround backGround;
     private Player player;
+    private SensorAccelerationActivity sensorAccelerationActivity;
+
+
 
     public GamePanel(Context context){
         super(context);
@@ -29,6 +41,29 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
         //Make gamePanel focusable so it can handle events
         setFocusable(true);
+
+        //sensorAccelerationActivity = new SensorAccelerationActivity(this);
+    }
+
+    public void updatePlayer(float value)
+    {
+        if(player!=null)
+        {
+            player.setPlaying(true);
+            if(value<-0.1)
+            {
+                player.setMoving(-1);
+            }
+            else if(value>0.1)
+            {
+                player.setMoving(1);
+            }
+            else
+            {
+                player.setMoving(0);
+            }
+        }
+
     }
 
     @Override
@@ -95,4 +130,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
             canvas.restoreToCount(savedState);
         }
     }
+
+
 }
