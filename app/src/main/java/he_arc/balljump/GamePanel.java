@@ -86,6 +86,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         plateformsGeneration(150, 60);
         mainThread.setRunning(true);
         mainThread.start();
+        player.setPlaying(true);
     }
 
     @Override
@@ -93,7 +94,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
                 player.jump();
-
         }
 
         return super.onTouchEvent(event);
@@ -101,16 +101,17 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
     public void update(){
         if(player.isPlaying()){
-            player.update();
 
-            if (player.getY() < HEIGHT/4){
-                //plateformsGeneration(HEIGHT - HEIGHT/4, 60);
-            }
+            player.update();
 
             for(Plateform p : plateformArrayList)
             {
-                //if(player.collision(p))
-                //    player.jump(p);
+
+                if(p.getY() - (player.getY() + 60) <= 5 && p.getY() - (player.getY() + 60) >= -5){
+                    if(player.collision(p)){
+                        player.jump();
+                    }
+                }
             }
 
             plateformsDestruction();
@@ -143,6 +144,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
     @Override
     public void draw(Canvas canvas){
+        super.draw(canvas);
         final float scaleFactorX = getWidth()/(WIDTH*1.f);
         final float scaleFactorY = getHeight()/(HEIGHT*1.f);
         if(canvas != null){
