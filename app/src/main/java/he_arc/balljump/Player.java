@@ -49,12 +49,12 @@ public class Player extends ObjectGame{
     }
 
     public boolean collision(Plateform p) {
-        System.out.println("p.width : "+ p.getWidth());
+        /*System.out.println("p.width : "+ p.getWidth());
         System.out.println((x >= p.getX() && ((x + width)<= (p.getX() + p.getWidth()))));
         System.out.println((p.getX() - x) < width && (p.getX() - x) > 0);
         System.out.println((p.getX()+p.getWidth())-x < width && (p.getX()+p.getWidth())-x > 0);
-        System.out.println((p.getY() - (y+65)) <= 5);
-        System.out.println((p.getY() - (y+65)) >= -5);
+        System.out.println((p.getY() - (y+60)) <= 3);
+        System.out.println((p.getY() - (y+60)) >= -3);*/
 
         if (((x >= p.getX() && ((x + width)<= (p.getX() + p.getWidth()))) || ((p.getX() - x) < width && (p.getX() - x) > 0)
                 || ((p.getX()+p.getWidth())-x < width && (p.getX()+p.getWidth())-x > 0))
