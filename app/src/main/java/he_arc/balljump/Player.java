@@ -2,6 +2,7 @@ package he_arc.balljump;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.provider.Settings;
 
 /**
  * Created by pedrocosta on 28.10.17.
@@ -13,12 +14,12 @@ public class Player extends ObjectGame{
     private int moving;
     private int velocity = 0;
     private boolean playing = false;
-    private int speed=20;
+    private int speed=15;
     private int gravity=1;
 
     public Player(Bitmap image){
         this.image = image;
-        this.width = 50;
+        this.width = 30;
         this.height = 100;
         this.x = GamePanel.WIDTH/2 - this.width/2;
         this.y = GamePanel.HEIGHT - this.height;
@@ -48,26 +49,33 @@ public class Player extends ObjectGame{
     }
 
     public boolean collision(Plateform p) {
-        if ((x >= p.getX())
-                && (x + width <= p.getX() + p.getWidth())
-                && (y + height <= p.getY()))
+        System.out.println("p.width : "+ p.getWidth());
+        System.out.println((x >= p.getX() && ((x + width)<= (p.getX() + p.getWidth()))));
+        System.out.println((p.getX() - x) < width && (p.getX() - x) > 0);
+        System.out.println((p.getX()+p.getWidth())-x < width && (p.getX()+p.getWidth())-x > 0);
+        System.out.println((p.getY() - (y+65)) <= 5);
+        System.out.println((p.getY() - (y+65)) >= -5);
+
+        if (((x >= p.getX() && ((x + width)<= (p.getX() + p.getWidth()))) || ((p.getX() - x) < width && (p.getX() - x) > 0)
+                || ((p.getX()+p.getWidth())-x < width && (p.getX()+p.getWidth())-x > 0))
+                && ((p.getY() - (y+60)) <= 3) && ((p.getY() - (y+60)) >= -3))
         {
             return true;
-        }else{
+        }else {
             return false;
         }
     }
 
     public void jump()
     {
-        speed=20;
+        speed=15;
     }
 
     private void constantJump() {
 
         velocity = -speed;
 
-        if(speed>-20)
+        if(speed>-15)
         {
             speed-=gravity;
         }
@@ -78,6 +86,7 @@ public class Player extends ObjectGame{
 
         if (y > GamePanel.HEIGHT-height){
             y = GamePanel.HEIGHT-height;
+            jump();
         }
     }
 
