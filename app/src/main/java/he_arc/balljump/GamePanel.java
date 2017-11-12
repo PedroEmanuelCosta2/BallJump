@@ -102,18 +102,16 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     public void update(){
         if(player.isPlaying()){
 
-            player.update();
+
 
             for(Plateform p : plateformArrayList)
             {
-
-                if(p.getY() - (player.getY() + 60) <= 5 && p.getY() - (player.getY() + 60) >= -5){
-                    if(player.collision(p)){
+                    if(player.collision(p))
+                    {
                         player.jump();
                     }
-                }
             }
-
+            player.update();
             plateformsDestruction();
         }
     }
@@ -133,6 +131,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
             Plateform plateform = new Plateform((WIDTH-50) - ((int) (Math.random() * ((500) + 1))) , HEIGHT - i);
             plateformArrayList.add(plateform);
         }
+
+
     }
 
     private void drawPlateforms(Canvas canvas)
