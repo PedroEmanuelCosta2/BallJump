@@ -1,10 +1,8 @@
 package he_arc.balljump;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 
 /**
  * Created by pedrocosta on 03.11.17.
@@ -12,29 +10,25 @@ import android.graphics.Rect;
 
 public class Plateform extends ObjectGame{
 
-    private Bitmap image;
-    private Rect source;
-    private Rect destination;
     private Paint paint;
+    private int id;
 
-    public Plateform(int x, int y)
+    public Plateform(int x, int y, int id)
     {
         this.x = x;
         this.y = y;
-        //this.image = image;
+        this.id = id;
         this.width = 100;
         this.height = 20;
         this.dy = 0;
-        //this.source = new Rect(this.x,this.y,this.image.getWidth(), this.image.getHeight());
-        //this.destination = new Rect(this.x,this.y,this.width, this.height);
         this.paint = new Paint();
         this.paint.setColor(Color.GREEN);
         this.paint.setStrokeWidth(3);
     }
 
-    public void shift()
+    public void shift(int shift)
     {
-        dy = 12;
+        dy = shift;
         y += dy*2;
     }
 
@@ -48,7 +42,8 @@ public class Plateform extends ObjectGame{
     }
 
     public void draw(Canvas canvas){
-        //canvas.drawBitmap(image, source,destination,null);
         canvas.drawRect(getRectangle(), this.paint);
     }
+
+    public int getId(){return this.id;}
 }

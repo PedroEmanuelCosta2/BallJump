@@ -16,15 +16,19 @@ public class Player extends ObjectGame{
     private boolean playing = false;
     private int speed=15;
     private int gravity=1;
+    private int speedJump=15;
+    private int speedMax=15;
+    private Bitmap bitmap;
 
     public Player(Bitmap image){
         this.image = image;
-        this.width = 30;
-        this.height = 100;
+        this.width = 80;
+        this.height = 80;
         this.x = GamePanel.WIDTH/2 - this.width/2;
         this.y = GamePanel.HEIGHT - this.height;
         this.dx = 0;
         this.dy = 0;
+        bitmap = Bitmap.createScaledBitmap(image, width, height,false);
     }
 
     public void update(){
@@ -48,34 +52,32 @@ public class Player extends ObjectGame{
         constantJump();
     }
 
-    public boolean collision(Plateform p) {
-        /*System.out.println("p.width : "+ p.getWidth());
-        System.out.println((x >= p.getX() && ((x + width)<= (p.getX() + p.getWidth()))));
-        System.out.println((p.getX() - x) < width && (p.getX() - x) > 0);
-        System.out.println((p.getX()+p.getWidth())-x < width && (p.getX()+p.getWidth())-x > 0);
-        System.out.println((p.getY() - (y+60)) <= 3);
-        System.out.println((p.getY() - (y+60)) >= -3);*/
 
-        if (((x >= p.getX() && ((x + width)<= (p.getX() + p.getWidth()))) || ((p.getX() - x) < width && (p.getX() - x) > 0)
-                || ((p.getX()+p.getWidth())-x < width && (p.getX()+p.getWidth())-x > 0))
-                && ((p.getY() - (y+60)) <= 3) && ((p.getY() - (y+60)) >= -3))
+    public boolean collision(Plateform p)
+    {
+        boolean isInX = (x + width/3 >= p.getX()-width/3) && ((x + (width/3)*2) <= (p.getX() + p.getWidth() + width/3));
+        boolean isInY = (y+height>=p.getY()) && (y+height<=p.getY()+p.getHeight());
+
+        if (isInX && isInY && speed<0)
         {
             return true;
-        }else {
+        }
+        else
+        {
             return false;
         }
     }
 
     public void jump()
     {
-        speed=15;
+        speed=speedJump;
     }
 
     private void constantJump() {
 
         velocity = -speed;
 
-        if(speed>-15)
+        if(speed>-speedMax)
         {
             speed-=gravity;
         }
@@ -91,7 +93,9 @@ public class Player extends ObjectGame{
     }
 
     public void draw(Canvas canvas){
-        canvas.drawBitmap(image,x,y,null);
+
+        canvas.drawBitmap(bitmap,x,y,null);
+
     }
 
     public void setMoving(int moving){this.moving = moving;}
