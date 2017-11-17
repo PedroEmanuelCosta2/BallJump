@@ -8,16 +8,16 @@ import android.provider.Settings;
  * Created by pedrocosta on 28.10.17.
  */
 
-public class Player extends ObjectGame{
+public class Player extends ObjectGame
+{
     private Bitmap image;
     private int width, height;
     private int moving;
-    private int velocity = 0;
     private boolean playing = false;
-    private int speed=15;
+    private int speed=10;
     private int gravity=1;
-    private int speedJump=15;
-    private int speedMax=15;
+    private int speedJump=20;
+    private int speedMax=10;
     private Bitmap bitmap;
 
     public Player(Bitmap image){
@@ -31,25 +31,33 @@ public class Player extends ObjectGame{
         bitmap = Bitmap.createScaledBitmap(image, width, height,false);
     }
 
-    public void update(){
-        if(moving == 1){
+    public int update()
+    {
+        if(moving == 1)
+        {
             dx = 5;
-        }else if(moving == -1){
+        }
+        else if(moving == -1)
+        {
             dx = -5;
-        }else{
+        }
+        else
+        {
             dx=0;
         }
 
-        x += dx*2;
+        x += dx;
 
-        if(x > GamePanel.WIDTH){
+        if(x > GamePanel.WIDTH)
+        {
             x = -width;
         }
-        if(x < -width){
+        if(x < -width)
+        {
             x = GamePanel.WIDTH;
         }
 
-        constantJump();
+        return constantJump();
     }
 
 
@@ -73,32 +81,53 @@ public class Player extends ObjectGame{
         speed=speedJump;
     }
 
-    private void constantJump() {
-
-        velocity = -speed;
+    private int constantJump()
+    {
+        int velocity = -speed;
 
         if(speed>-speedMax)
         {
             speed-=gravity;
         }
 
-        dy = velocity;
+        y += velocity;
 
-        y += dy*2;
-
-        if (y > GamePanel.HEIGHT-height){
+        if (y > GamePanel.HEIGHT-height)
+        {
             y = GamePanel.HEIGHT-height;
             jump();
         }
+
+        if(y<GamePanel.HEIGHT/2)
+        {
+            y=GamePanel.HEIGHT/2;
+            return velocity;
+        }
+        return 0;
     }
 
-    public void draw(Canvas canvas){
-
+    public void draw(Canvas canvas)
+    {
         canvas.drawBitmap(bitmap,x,y,null);
-
     }
 
-    public void setMoving(int moving){this.moving = moving;}
-    public boolean isPlaying() {return playing;}
-    public void setPlaying(boolean playing) {this.playing = playing;}
+    public void setMoving(int moving)
+    {
+        this.moving = moving;
+    }
+
+    public boolean isPlaying()
+    {
+        return playing;
+    }
+
+    public void setPlaying(boolean playing)
+    {
+        this.playing = playing;
+    }
+
+    public  int getSpeed()
+    {
+        return speed;
+    }
 }

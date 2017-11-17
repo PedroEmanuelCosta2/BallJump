@@ -29,7 +29,7 @@ public class Plateform extends ObjectGame{
     public void shift(int shift)
     {
         dy = shift;
-        y += dy*2;
+        y += dy;
     }
 
     public boolean outOfScreen()

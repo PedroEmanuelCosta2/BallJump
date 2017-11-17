@@ -24,6 +24,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     private List<Plateform> plateformArrayList;
     private int id = 0;
     private Plateform oldPlateform;
+    private Plateform lastPlateform;
+    int k=0;
 
     public GamePanel(Context context){
         super(context);
@@ -97,7 +99,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     }
 
     public void update(){
-        synchronized (plateformArrayList){
+        /*synchronized (plateformArrayList){
             List<Plateform> plateformArrayListCopy = new ArrayList<Plateform>();
             for(Iterator<Plateform> it = plateformArrayList.iterator(); it.hasNext();)
             {
@@ -120,13 +122,47 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
             plateformArrayList.addAll(plateformArrayListCopy);
         }
         player.update();
+        plateformsDestruction();*/
+
+
+        for(Iterator<Plateform> it = plateformArrayList.iterator(); it.hasNext();)
+        {
+            Plateform p = it.next();
+            if(player.collision(p))
+            {
+                player.jump();
+            }
+        }
+        int delta=-player.update();
+
+        synchronized (plateformArrayList)
+        {
+            List<Plateform> plateformArrayListCopy = new ArrayList<Plateform>();
+            for(Iterator<Plateform> it = plateformArrayList.iterator(); it.hasNext();)
+            {
+                Plateform p = it.next();
+
+                for(Plateform p2 : plateformArrayList)
+                {
+                    p2.shift(delta/4);
+                }
+                if(lastPlateform.getY()>70)
+                {
+                    addPlatform(plateformArrayListCopy );
+                }
+
+            }
+            plateformArrayList.addAll(plateformArrayListCopy);
+        }
         plateformsDestruction();
     }
 
     private void plateformsDestruction()
     {
-        for(int i = 0; i < plateformArrayList.size(); i++){
-            if(plateformArrayList.get(i).outOfScreen()){
+        for(int i = 0; i < plateformArrayList.size(); i++)
+        {
+            if(plateformArrayList.get(i).outOfScreen())
+            {
                 plateformArrayList.remove(i);
             }
         }
@@ -134,23 +170,31 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
     private void plateformsGeneration(int start, int limit, int decrement, List<Plateform> plateformArrayList)
     {
-        for (int i = start; i > limit ; i-= decrement){
-            Plateform plateform = new Plateform((WIDTH-50) - ((int) (Math.random() * ((500) + 1))) , i, id++);
-            plateformArrayList.add(plateform);
-        }
-
-
+            for (int i = start; i > limit ; i-= decrement)
+            {
+                Plateform plateform = new Plateform((WIDTH-50) - ((int) (Math.random() * ((500) + 1))) , i, id++);
+                plateformArrayList.add(plateform);
+                lastPlateform=plateform;
+            }
     }
 
+    private  void addPlatform(List<Plateform> plateformArrayList)
+    {
+        Plateform plateform = new Plateform((WIDTH-50) - ((int) (Math.random() * ((500) + 1))) , 10, id++);
+        plateformArrayList.add(plateform);
+        lastPlateform=plateform;
+    }
     private void drawPlateforms(Canvas canvas)
     {
-        for(Plateform p : plateformArrayList){
+        for(Plateform p : plateformArrayList)
+        {
             p.draw(canvas);
         }
     }
 
     @Override
-    public void draw(Canvas canvas){
+    public void draw(Canvas canvas)
+    {
         super.draw(canvas);
         final float scaleFactorX = getWidth()/(WIDTH*1.f);
         final float scaleFactorY = getHeight()/(HEIGHT*1.f);
