@@ -25,7 +25,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     private int id = 0;
     private Plateform oldPlateform;
     private Plateform lastPlateform;
-    int k=0;
+    int deltaYPlatform=60;
 
     public GamePanel(Context context){
         super(context);
@@ -81,7 +81,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         backGround = new BackGround(BitmapFactory.decodeResource(getResources(), R.drawable.background));
         player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.doodler));
         plateformArrayList = new ArrayList<Plateform>();
-        plateformsGeneration(HEIGHT-150,0, 60, plateformArrayList);
+        plateformsGeneration(HEIGHT-150,0, deltaYPlatform, plateformArrayList);
         oldPlateform = plateformArrayList.get(0);
         mainThread.setRunning(true);
         mainThread.start();
@@ -146,9 +146,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
                 {
                     p2.shift(delta/4);
                 }
-                if(lastPlateform.getY()>70)
+                if(lastPlateform.getY()>deltaYPlatform+10)
                 {
-                    addPlatform(plateformArrayListCopy );
+                    addPlatform(plateformArrayListCopy);
                 }
 
             }

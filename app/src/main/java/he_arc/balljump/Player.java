@@ -15,12 +15,14 @@ public class Player extends ObjectGame
     private int moving;
     private boolean playing = false;
     private int speed=10;
-    private int gravity=1;
-    private int speedJump=20;
-    private int speedMax=10;
+    private int gravity=2;
+    private int speedJump=30;
+    private int speedMax=30;
+    private int speedX=8;
     private Bitmap bitmap;
 
-    public Player(Bitmap image){
+    public Player(Bitmap image)
+    {
         this.image = image;
         this.width = 80;
         this.height = 80;
@@ -35,11 +37,11 @@ public class Player extends ObjectGame
     {
         if(moving == 1)
         {
-            dx = 5;
+            dx = speedX;
         }
         else if(moving == -1)
         {
-            dx = -5;
+            dx = -speedX;
         }
         else
         {
