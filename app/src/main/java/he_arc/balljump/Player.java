@@ -62,8 +62,9 @@ public class Player extends ObjectGame
 
     public boolean collision(Plateform p)
     {
+
         boolean isInX = (x + width/3 >= p.getX()-width/3) && ((x + (width/3)*2) <= (p.getX() + p.getWidth() + width/3));
-        boolean isInY = (y+height>=p.getY()) && (y+height<=p.getY()+p.getHeight());
+        boolean isInY = (y+height>=p.getY()) && (y+height<=p.getY()+speedMax);
 
         if (isInX && isInY && speed<0)
         {
