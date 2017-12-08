@@ -10,10 +10,8 @@ import android.provider.Settings;
 
 public class Player extends ObjectGame
 {
-    private Bitmap image;
     private int width, height;
     private int moving;
-    private boolean playing = false;
     private int speed=10;
     private int gravity=2;
     private int speedJump=30;
@@ -23,7 +21,6 @@ public class Player extends ObjectGame
 
     public Player(Bitmap image)
     {
-        this.image = image;
         this.width = 80;
         this.height = 80;
         this.x = GamePanel.WIDTH/2 - this.width/2;
@@ -118,18 +115,7 @@ public class Player extends ObjectGame
         this.moving = moving;
     }
 
-    public boolean isPlaying()
-    {
-        return playing;
-    }
-
-    public void setPlaying(boolean playing)
-    {
-        this.playing = playing;
-    }
-
-    public  int getSpeed()
-    {
+    public int getSpeed(){
         return speed;
     }
 }

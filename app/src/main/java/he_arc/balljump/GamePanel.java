@@ -3,6 +3,8 @@ package he_arc.balljump;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -21,9 +23,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     private MainThread mainThread;
     private BackGround backGround;
     private Player player;
+    private Paint paint;
     private List<Plateform> plateformArrayList;
-    private int id = 0;
-    private Plateform oldPlateform;
+    private int score = 0;
+    private boolean isShifting = false;
     private Plateform lastPlateform;
     int deltaYPlatform=60;
 
@@ -82,10 +85,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.doodler));
         plateformArrayList = new ArrayList<Plateform>();
         plateformsGeneration(HEIGHT-150,0, deltaYPlatform, plateformArrayList);
-        oldPlateform = plateformArrayList.get(0);
+        paint = new Paint();
+        paint.setColor(Color.BLACK);
+        paint.setTextSize(20);
         mainThread.setRunning(true);
         mainThread.start();
-        player.setPlaying(true);
     }
 
     @Override
@@ -99,49 +103,31 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     }
 
     public void update(){
-        /*synchronized (plateformArrayList){
-            List<Plateform> plateformArrayListCopy = new ArrayList<Plateform>();
-            for(Iterator<Plateform> it = plateformArrayList.iterator(); it.hasNext();)
-            {
-                Plateform p = it.next();
-                if(player.collision(p))
-                {
-                    if(oldPlateform.getId() != p.getId()){
-                        if (p.getId() - oldPlateform.getId() > 0){
-                            int delta = oldPlateform.getY() - p.getY();
-                            for(Plateform p2 : plateformArrayList){
-                                p2.shift(delta/(p.getId()-oldPlateform.getId()));
-                            }
-                            plateformsGeneration(delta/(p.getId()-oldPlateform.getId()), 0,60,plateformArrayListCopy);
-                        }
-                    }
-                    oldPlateform = p;
-                    player.jump();
-                }
-            }
-            plateformArrayList.addAll(plateformArrayListCopy);
+        if (score >= 8000){
+            deltaYPlatform = 100;
         }
-        player.update();
-        plateformsDestruction();*/
-
-
-        for(Iterator<Plateform> it = plateformArrayList.iterator(); it.hasNext();)
+        for(int i = 0; i < plateformArrayList.size(); i++)
         {
-            Plateform p = it.next();
+            Plateform p = plateformArrayList.get(i);
             if(player.collision(p))
             {
+                if(p.getBreakable() == 0){
+                    plateformArrayList.remove(i);
+                }
                 player.jump();
             }
         }
+
         int delta=-player.update();
+
+        isShifting = delta > 0 ? true : false;
 
         synchronized (plateformArrayList)
         {
             List<Plateform> plateformArrayListCopy = new ArrayList<Plateform>();
             for(Iterator<Plateform> it = plateformArrayList.iterator(); it.hasNext();)
             {
-                Plateform p = it.next();
-
+                it.next();
                 for(Plateform p2 : plateformArrayList)
                 {
                     p2.shift(delta/4);
@@ -172,7 +158,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     {
             for (int i = start; i > limit ; i-= decrement)
             {
-                Plateform plateform = new Plateform((WIDTH-50) - ((int) (Math.random() * ((500) + 1))) , i, id++);
+                Plateform plateform = new Plateform((WIDTH-50) - ((int) (Math.random() * ((500) + 1))) , i);
                 plateformArrayList.add(plateform);
                 lastPlateform=plateform;
             }
@@ -180,7 +166,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
     private  void addPlatform(List<Plateform> plateformArrayList)
     {
-        Plateform plateform = new Plateform((WIDTH-50) - ((int) (Math.random() * ((500) + 1))) , 10, id++);
+        Plateform plateform = new Plateform((WIDTH-50) - ((int) (Math.random() * ((500) + 1))) , 10);
         plateformArrayList.add(plateform);
         lastPlateform=plateform;
     }
@@ -204,6 +190,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
             backGround.draw(canvas);
             player.draw(canvas);
             drawPlateforms(canvas);
+            if (player.getSpeed()>0 && isShifting)
+                score += player.getSpeed();
+            canvas.drawText(score+" pts",10,20, paint);
             canvas.restoreToCount(savedState);
         }
     }
