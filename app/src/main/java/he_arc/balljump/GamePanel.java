@@ -1,6 +1,7 @@
 package he_arc.balljump;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -24,6 +25,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     private BackGround backGround;
     private Player player;
     private Paint paint;
+    private Context context;
     private List<Plateform> plateformArrayList;
     private int score = 0;
     private boolean isShifting = false;
@@ -33,6 +35,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     public GamePanel(Context context){
         super(context);
 
+        this.context = context;
         //Add the callback to the surface to intercept events
         getHolder().addCallback(this);
 
@@ -98,7 +101,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
             case MotionEvent.ACTION_DOWN:
                 player.jump();
         }
-
         return super.onTouchEvent(event);
     }
 
@@ -141,6 +143,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
             plateformArrayList.addAll(plateformArrayListCopy);
         }
         plateformsDestruction();
+
+        if (player.gameOver()){
+            mainThread.setRunning(false);
+            Intent gameOverIntent = new Intent(context, GameOver.class);
+            context.startActivity(gameOverIntent);
+        }
     }
 
     private void plateformsDestruction()

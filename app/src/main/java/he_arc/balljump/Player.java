@@ -24,7 +24,7 @@ public class Player extends ObjectGame
         this.width = 80;
         this.height = 80;
         this.x = GamePanel.WIDTH/2 - this.width/2;
-        this.y = GamePanel.HEIGHT - this.height;
+        this.y = GamePanel.HEIGHT - this.height - 100;
         this.dx = 0;
         this.dy = 0;
         bitmap = Bitmap.createScaledBitmap(image, width, height,false);
@@ -59,6 +59,15 @@ public class Player extends ObjectGame
         return constantJump();
     }
 
+    public boolean gameOver()
+    {
+        if (y > GamePanel.HEIGHT)
+        {
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     public boolean collision(Plateform p)
     {
@@ -91,12 +100,6 @@ public class Player extends ObjectGame
         }
 
         y += velocity;
-
-        if (y > GamePanel.HEIGHT-height)
-        {
-            y = GamePanel.HEIGHT-height;
-            jump();
-        }
 
         if(y<GamePanel.HEIGHT/2)
         {
