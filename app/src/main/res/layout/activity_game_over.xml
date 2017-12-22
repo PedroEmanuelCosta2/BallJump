@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
         android:gravity="center_vertical|center_horizontal"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp">
 
         <TextView
             android:id="@+id/textView"
@@ -19,6 +23,27 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             tools:layout_editor_absoluteX="36dp"
             tools:layout_editor_absoluteY="204dp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="100dp" />
+
+        <Button
+            android:id="@+id/replay"
+            android:layout_width="218dp"
+            android:layout_height="match_parent"
+            android:elevation="0dp"
+            android:text="play again"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/goHome"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:elevation="0dp"
+            android:text="go to the menu"
+            android:textSize="24sp" />
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
