@@ -1,5 +1,6 @@
 package he_arc.balljump;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -14,9 +15,11 @@ public class Plateform extends ObjectGame{
 
     private Paint paint;
     private int breakable;
+    private Bitmap bitmap;
 
-    public Plateform(int x, int y)
+    public Plateform(int x, int y, Bitmap bitmap)
     {
+        this.bitmap=bitmap;
         this.x = x;
         this.y = y;
         this.width = 100;
@@ -49,7 +52,8 @@ public class Plateform extends ObjectGame{
     }
 
     public void draw(Canvas canvas){
-        canvas.drawRect(getRectangle(), this.paint);
+
+        canvas.drawBitmap(bitmap,x,y,null);
     }
 
     public int getBreakable(){

@@ -1,6 +1,7 @@
 package he_arc.balljump;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -23,6 +24,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     private MainThread mainThread;
     private BackGround backGround;
     private Player player;
+    private Bitmap bitmapPlateform;
     private Paint paint;
     private List<Plateform> plateformArrayList;
     private int score = 0;
@@ -83,6 +85,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
         backGround = new BackGround(BitmapFactory.decodeResource(getResources(), R.drawable.background));
         player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.doodler));
+        bitmapPlateform = BitmapFactory.decodeResource(getResources(), R.drawable.plateform);
+        bitmapPlateform = Bitmap.createScaledBitmap(bitmapPlateform, 100, 20,false);
         plateformArrayList = new ArrayList<Plateform>();
         plateformsGeneration(HEIGHT-150,0, deltaYPlatform, plateformArrayList);
         paint = new Paint();
@@ -158,7 +162,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     {
             for (int i = start; i > limit ; i-= decrement)
             {
-                Plateform plateform = new Plateform((WIDTH-50) - ((int) (Math.random() * ((500) + 1))) , i);
+                Plateform plateform = new Plateform((WIDTH-50) - ((int) (Math.random() * ((500) + 1))) , i,bitmapPlateform);
                 plateformArrayList.add(plateform);
                 lastPlateform=plateform;
             }
@@ -166,7 +170,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
     private  void addPlatform(List<Plateform> plateformArrayList)
     {
-        Plateform plateform = new Plateform((WIDTH-50) - ((int) (Math.random() * ((500) + 1))) , 10);
+        Plateform plateform = new Plateform((WIDTH-50) - ((int) (Math.random() * ((500) + 1))) , 10,bitmapPlateform);
         plateformArrayList.add(plateform);
         lastPlateform=plateform;
     }
