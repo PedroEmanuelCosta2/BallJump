@@ -24,7 +24,7 @@ public class Player extends ObjectGame
         this.width = 80;
         this.height = 80;
         this.x = GamePanel.WIDTH/2 - this.width/2;
-        this.y = GamePanel.HEIGHT - this.height - 100;
+        this.y = GamePanel.HEIGHT/2;
         this.dx = 0;
         this.dy = 0;
         bitmap = Bitmap.createScaledBitmap(image, width, height,false);

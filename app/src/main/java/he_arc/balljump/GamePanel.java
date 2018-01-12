@@ -24,8 +24,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     public static final int HEIGHT = 850;
     private MainThread mainThread;
     private BackGround backGround;
+    private BackGround backGroundAcid;
     private Player player;
     private Bitmap bitmapPlateform;
+    private Bitmap bitmapPlateformRed;
     private Paint paint;
     private Context context;
     private List<Plateform> plateformArrayList;
@@ -86,10 +88,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
-        backGround = new BackGround(BitmapFactory.decodeResource(getResources(), R.drawable.background));
-        player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.doodler));
+        backGround = new BackGround(BitmapFactory.decodeResource(getResources(), R.drawable.background),WIDTH,HEIGHT,0,0);
+        backGroundAcid = new BackGround(BitmapFactory.decodeResource(getResources(), R.drawable.background_acid),WIDTH,50,0,801);
+        player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.monster1));
         bitmapPlateform = BitmapFactory.decodeResource(getResources(), R.drawable.plateform);
         bitmapPlateform = Bitmap.createScaledBitmap(bitmapPlateform, 100, 20,false);
+        bitmapPlateformRed = BitmapFactory.decodeResource(getResources(), R.drawable.plateform_red);
+        bitmapPlateformRed = Bitmap.createScaledBitmap(bitmapPlateformRed, 100, 20,false);
         plateformArrayList = new ArrayList<Plateform>();
         plateformsGeneration(HEIGHT-150,0, deltaYPlatform, plateformArrayList);
         paint = new Paint();
@@ -170,7 +175,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     {
             for (int i = start; i > limit ; i-= decrement)
             {
-                Plateform plateform = new Plateform((WIDTH-50) - ((int) (Math.random() * ((500) + 1))) , i,bitmapPlateform);
+                Plateform plateform = new Plateform((WIDTH-50) - ((int) (Math.random() * ((500) + 1))) , i,bitmapPlateform,bitmapPlateformRed);
                 plateformArrayList.add(plateform);
                 lastPlateform=plateform;
             }
@@ -178,7 +183,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
     private  void addPlatform(List<Plateform> plateformArrayList)
     {
-        Plateform plateform = new Plateform((WIDTH-50) - ((int) (Math.random() * ((500) + 1))) , 10,bitmapPlateform);
+        Plateform plateform = new Plateform((WIDTH-50) - ((int) (Math.random() * ((500) + 1))) , 10,bitmapPlateform,bitmapPlateformRed);
         plateformArrayList.add(plateform);
         lastPlateform=plateform;
     }
@@ -200,10 +205,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
             final int savedState = canvas.save();
             canvas.scale(scaleFactorX, scaleFactorY);
             backGround.draw(canvas);
+
             player.draw(canvas);
             drawPlateforms(canvas);
             if (player.getSpeed()>0 && isShifting)
                 score += player.getSpeed();
+            backGroundAcid.draw(canvas);
             canvas.drawText(score+" pts",10,20, paint);
             canvas.restoreToCount(savedState);
         }

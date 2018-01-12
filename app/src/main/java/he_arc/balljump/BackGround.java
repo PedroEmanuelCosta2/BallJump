@@ -9,12 +9,17 @@ import android.graphics.Canvas;
 
 public class BackGround {
     private Bitmap image;
+    private int x;
+    private int y;
 
-    public BackGround(Bitmap image){
-        this.image = image;
+    public BackGround(Bitmap image, int width, int height,int x, int y){
+        this.image = Bitmap.createScaledBitmap(image,width,height,false);
+        this.x=x;
+        this.y=y;
+
     }
 
     public void draw(Canvas canvas){
-        canvas.drawBitmap(image,0,0,null);
+        canvas.drawBitmap(image,x,y,null);
     }
 }
