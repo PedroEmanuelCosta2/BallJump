@@ -15,11 +15,13 @@ public class Plateform extends ObjectGame{
 
     private Paint paint;
     private int breakable;
-    private Bitmap bitmap;
+    private Bitmap bitmapGrey;
+    private Bitmap bitmapRed;
 
-    public Plateform(int x, int y, Bitmap bitmap)
+    public Plateform(int x, int y, Bitmap bitmapGrey, Bitmap bitmapRed)
     {
-        this.bitmap=bitmap;
+        this.bitmapGrey = bitmapGrey;
+        this.bitmapRed = bitmapRed;
         this.x = x;
         this.y = y;
         this.width = 100;
@@ -28,11 +30,7 @@ public class Plateform extends ObjectGame{
         Random random = new Random();
         this.breakable = random.nextInt(40);
         this.paint = new Paint();
-        if (this.breakable == 0) {
-            this.paint.setColor(Color.RED);
-        }else{
-            this.paint.setColor(Color.GREEN);
-        }
+
         this.paint.setStrokeWidth(3);
     }
 
@@ -53,7 +51,12 @@ public class Plateform extends ObjectGame{
 
     public void draw(Canvas canvas){
 
-        canvas.drawBitmap(bitmap,x,y,null);
+        if (this.breakable == 0) {
+            canvas.drawBitmap(bitmapRed,x,y,null);
+        }else{
+            canvas.drawBitmap(bitmapGrey,x,y,null);
+        }
+
     }
 
     public int getBreakable(){
