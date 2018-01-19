@@ -6,4 +6,11 @@
     android:layout_height="match_parent"
     tools:context="he_arc.balljump.Game">
 
+    <Button
+        android:id="@+id/buttonPause"
+        android:layout_width="65dp"
+        android:layout_height="52dp"
+        android:text="Button"
+        tools:layout_editor_absoluteX="315dp"
+        tools:layout_editor_absoluteY="6dp" />
 </android.support.constraint.ConstraintLayout>

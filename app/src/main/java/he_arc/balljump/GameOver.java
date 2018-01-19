@@ -35,7 +35,6 @@ public class GameOver extends AppCompatActivity{
             public void onClick(View view) {
 
                 finish();
-
                 startActivity(new Intent(GameOver.this, MenuActivity.class));
 
             }
