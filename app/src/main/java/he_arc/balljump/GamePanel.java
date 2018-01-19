@@ -29,17 +29,19 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     private Bitmap bitmapPlateform;
     private Bitmap bitmapPlateformRed;
     private Paint paint;
-    private Context context;
+    private SensorAccelerationActivity sensorAccelerationActivity;
     private List<Plateform> plateformArrayList;
     private int score = 0;
     private boolean isShifting = false;
     private Plateform lastPlateform;
     int deltaYPlatform=60;
 
-    public GamePanel(Context context){
-        super(context);
+    public GamePanel(SensorAccelerationActivity sensorAccelerationActivity){
 
-        this.context = context;
+        super(sensorAccelerationActivity);
+        System.out.println("Constructeur gamepanel");
+
+        this.sensorAccelerationActivity = sensorAccelerationActivity;
         //Add the callback to the surface to intercept events
         getHolder().addCallback(this);
 
@@ -47,6 +49,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
         //Make gamePanel focusable so it can handle events
         setFocusable(true);
+
     }
 
     public void updatePlayer(float value)
@@ -75,15 +78,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-        boolean retry = true;
-        while (retry) {
+        //boolean retry = true;
+        //while (retry) {
             try {
                 mainThread.setRunning(false);
                 mainThread.join();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
+       // }
     }
 
     @Override
@@ -154,10 +157,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         plateformsDestruction();
 
         if (player.gameOver()){
-            mainThread.setRunning(false);
-            Intent gameOverIntent = new Intent(context, GameOver.class);
-            context.startActivity(gameOverIntent);
+
+            sensorAccelerationActivity.gameOver();
         }
+    }
+
+    public void stopThread()
+    {
+        mainThread.setRunning(false);
+        //mainThread.interrupt();
     }
 
     private void plateformsDestruction()
@@ -202,6 +210,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         final float scaleFactorX = getWidth()/(WIDTH*1.f);
         final float scaleFactorY = getHeight()/(HEIGHT*1.f);
         if(canvas != null){
+            System.out.println("draw");
             final int savedState = canvas.save();
             canvas.scale(scaleFactorX, scaleFactorY);
             backGround.draw(canvas);

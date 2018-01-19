@@ -19,7 +19,8 @@ public class MenuActivity extends AppCompatActivity {
         {
             public void onClick(View v)
             {
-                Intent i = new Intent(MenuActivity.this, Game.class);
+                finish();
+                Intent i = new Intent(MenuActivity.this, SensorAccelerationActivity.class);
                 startActivity(i);
             }
         });

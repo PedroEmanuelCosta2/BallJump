@@ -14,28 +14,30 @@ import android.widget.Button;
 
 public class GameOver extends AppCompatActivity{
 
-    private Button replay;
-    private Button goHome;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_over);
 
-        replay = (Button) findViewById(R.id.replay);
-        goHome = (Button) findViewById(R.id.goHome);
+        Button replay = (Button) findViewById(R.id.replay);
+        Button goHome = (Button) findViewById(R.id.goHome);
 
         replay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(GameOver.this, Game.class));
+                finish();
+                startActivity(new Intent(GameOver.this, SensorAccelerationActivity.class));
             }
         });
 
         goHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                finish();
                 startActivity(new Intent(GameOver.this, MenuActivity.class));
+
             }
         });
     }

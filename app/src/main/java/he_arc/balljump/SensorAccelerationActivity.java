@@ -1,6 +1,7 @@
 package he_arc.balljump;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -88,6 +89,16 @@ public class SensorAccelerationActivity extends AppCompatActivity  implements Se
     @Override
     public void onPointerCaptureChanged(boolean hasCapture)
     {
+
+    }
+
+    public void gameOver()
+    {
+
+        gamePanel.stopThread();
+        finish();
+        Intent gameOverIntent = new Intent(SensorAccelerationActivity.this, GameOver.class);
+        startActivity(gameOverIntent);
 
     }
 }
