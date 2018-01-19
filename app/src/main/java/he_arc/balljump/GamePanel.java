@@ -10,9 +10,14 @@ import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by pedrocosta on 28.10.17.
@@ -158,7 +163,25 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
         if (player.gameOver()){
 
+
             sensorAccelerationActivity.gameOver();
+
+
+        }
+    }
+
+    private void storeScore(){
+        try {
+            FileOutputStream fos = sensorAccelerationActivity.openFileOutput("trashList.txt", MODE_PRIVATE);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+            oos.writeUTF("Player x : "+score);
+
+            fos.close();
+            oos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+
         }
     }
 

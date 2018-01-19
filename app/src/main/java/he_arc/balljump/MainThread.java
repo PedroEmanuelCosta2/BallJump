@@ -38,7 +38,7 @@ public class MainThread extends Thread {
         while (running){
             canvas = null;
             try {
-                canvas = this.surfaceHolder.lockCanvas();
+                this.lock();
 
                 synchronized (this.surfaceHolder){
                     this.gamePanel.update();
@@ -58,7 +58,7 @@ public class MainThread extends Thread {
                 if(canvas!=null)
                 {
                     try {
-                        this.surfaceHolder.unlockCanvasAndPost(canvas);
+                        unlockAndPost(canvas);
                     }catch (Exception e){
                         e.printStackTrace();
                     }
@@ -70,5 +70,17 @@ public class MainThread extends Thread {
 
     public void setRunning(boolean running){
         this.running = running;
+    }
+
+    public void lock(){
+        canvas = this.surfaceHolder.lockCanvas();
+    }
+
+    public void unlockAndPost(Canvas canvas){
+        this.surfaceHolder.unlockCanvasAndPost(canvas);
+    }
+
+    public Canvas getCanvas (){
+        return this.canvas;
     }
 }
