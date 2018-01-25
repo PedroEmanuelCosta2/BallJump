@@ -26,5 +26,17 @@ public class MenuActivity extends AppCompatActivity {
 
             }
         });
+
+        Button buttonShare = findViewById(R.id.buttonShare);
+        buttonShare.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                finish();
+                Intent i = new Intent(MenuActivity.this, BluetoothActivity.class);
+                startActivity(i);
+
+            }
+        });
     }
 }
