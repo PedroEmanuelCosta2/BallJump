@@ -14,13 +14,22 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
 
 
-        Button button = findViewById(R.id.buttonPlay);
-        button.setOnClickListener(new View.OnClickListener()
+        Button buttonPlay = findViewById(R.id.buttonPlay);
+        buttonPlay.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v)
             {
                 finish();
                 Intent i = new Intent(MenuActivity.this, SensorAccelerationActivity.class);
+                startActivity(i);
+            }
+        });
+
+        Button buttonStatistics = findViewById(R.id.buttonStatistics);
+        buttonStatistics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MenuActivity.this, Statistics.class);
                 startActivity(i);
             }
         });

@@ -72,15 +72,11 @@ public class MainThread extends Thread {
         this.running = running;
     }
 
-    public void lock(){
+    private void lock(){
         canvas = this.surfaceHolder.lockCanvas();
     }
 
-    public void unlockAndPost(Canvas canvas){
+    private void unlockAndPost(Canvas canvas){
         this.surfaceHolder.unlockCanvasAndPost(canvas);
-    }
-
-    public Canvas getCanvas (){
-        return this.canvas;
     }
 }

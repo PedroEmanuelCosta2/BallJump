@@ -34,15 +34,17 @@
 
             <Button
                 android:id="@+id/replay"
-                android:layout_width="match_parent"
+                android:layout_width="271dp"
                 android:layout_height="wrap_content"
-                android:text="Play Again" />
+                android:text="Play Again"
+                android:theme="@style/Base.ThemeOverlay.AppCompat.Dark" />
 
             <Button
                 android:id="@+id/goHome"
-                android:layout_width="match_parent"
+                android:layout_width="271dp"
                 android:layout_height="wrap_content"
-                android:text="Return to home page" />
+                android:text="Return to home page"
+                android:theme="@style/Base.ThemeOverlay.AppCompat.Dark" />
 
         </LinearLayout>
     </LinearLayout>
