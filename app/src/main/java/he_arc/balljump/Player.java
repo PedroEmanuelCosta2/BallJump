@@ -12,11 +12,11 @@ public class Player extends ObjectGame
 {
     private int width, height;
     private int moving;
-    private int speed=10;
-    private int gravity=2;
-    private int speedJump=30;
-    private int speedMax=30;
-    private int speedX=8;
+    private int speed=5;
+    private int gravity=1;
+    private int speedJump=20;
+    private int speedMax=15;
+    private int speedX=6;
     private Bitmap bitmap;
 
     public Player(Bitmap image)

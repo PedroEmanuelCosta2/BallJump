@@ -31,17 +31,20 @@ public class SensorAccelerationActivity extends AppCompatActivity  implements Se
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        System.out.println("oncreate sensor");
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        gamePanel = new GamePanel(this);
-        setContentView(gamePanel);
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+
+        gamePanel = new GamePanel(this);
+        setContentView(gamePanel);
+
+        gamePanel.setZOrderOnTop(true);
     }
 
     @Override

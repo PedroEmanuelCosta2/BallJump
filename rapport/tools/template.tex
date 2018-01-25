@@ -1,0 +1,234 @@
+%----------------------------------------------------------------------------------------
+%	DOCUMENT
+%----------------------------------------------------------------------------------------
+
+\documentclass$if(pagesize)$[$pagesize$$else$[a4$endif$paper, francais]{report}
+\def\tightlist{}
+
+%----------------------------------------------------------------------------------------
+%	Packages
+%----------------------------------------------------------------------------------------
+
+
+\usepackage{pdflscape}
+\usepackage[hmargin=2cm,vmargin=2.5cm]{geometry}
+\usepackage{listings}
+\usepackage{textcomp}
+\usepackage{float}
+% next if block comes from : https://tex.stackexchange.com/a/215284
+\ifpdf % We're generating a pdf
+    \usepackage[pdftex]{color,graphicx}
+    \usepackage{thumbpdf}
+\else
+    \usepackage[dvips]{graphicx}
+\fi
+\usepackage{polyglossia}
+\setmainlanguage{$if(language)$$language$$else$english$endif$}
+\usepackage{sectsty}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage[T1]{fontenc}
+\usepackage{multicol}
+\usepackage[figure]{totalcount}
+
+%----------------------------------------------------------------------------------------
+%   SETTINGS CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\setlength{\parindent}{0pt} % Remove indetation at the begining of paragraph
+
+\renewcommand{\thesection}{\arabic{section}} % Set section numbers to integers (1, 2, 3, ...)
+
+\allsectionsfont{\bfseries\sffamily} % Section are sans serif
+
+\DeclareTextCommand{\nobreakspace}{T1}{\leavevmode\nobreak\ }
+%----------------------------------------------------------------------------------------
+%   HEADER AND FOOTER
+%----------------------------------------------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{$for(author)$$if(author.lastname)$$author.lastname$$else$$author$$endif$$sep$, $endfor$}
+\lhead{$if(title)$$title$$endif$}
+\cfoot{\thepage}
+
+%----------------------------------------------------------------------------------------
+%	LISTINGS
+%----------------------------------------------------------------------------------------
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{light-grey}{rgb}{0.9,0.9,0.9}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{ %
+    backgroundcolor=\color{light-grey},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+    basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+    breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+    breaklines=true,                 % sets automatic line breaking
+    captionpos=b,                    % sets the caption-position to bottom
+    commentstyle=\color{mygreen},    % comment style
+    deletekeywords={...},            % if you want to delete keywords from the given language
+    escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+    extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+    frame=single,	                   % adds a frame around the code
+    keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+    keywordstyle=\color{blue},       % keyword style
+    language=bash,                 % the language of the code
+    morekeywords={*,...},            % if you want to add more keywords to the set
+    numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+    numbersep=5pt,                   % how far the line-numbers are from the code
+    numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+    rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+    showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+    showstringspaces=false,          % underline spaces within strings only
+    showtabs=false,                  % show tabs within strings adding particular underscores
+    stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+    stringstyle=\color{mymauve},     % string literal style
+    tabsize=2,	                   % sets default tabsize to 2 spaces
+    title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
+%----------------------------------------------------------------------------------------
+%
+%                           DOCUMENT
+%
+%----------------------------------------------------------------------------------------
+
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\begin{titlepage}
+\newgeometry{hmargin=2cm,vmargin=2cm}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+\center % Center everything on the page
+
+%----------------------------------------------------------------------------------------
+%	HEADING SECTIONS
+%----------------------------------------------------------------------------------------
+$if(institut.name)$
+\textsc{\LARGE $institut.name$}\\[1.5cm] % Name of your university/college
+$endif$
+$if(subtitle)$
+\textsc{\Large $subtitle$}\\[0.5cm] % Major heading such as course name
+$endif$
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+$if(title)$
+\HRule \\[0.4cm]
+{ \huge \bfseries $title$}\\[0.4cm] % Title of your document
+\HRule \\[1.5cm]
+$endif$
+
+%----------------------------------------------------------------------------------------
+%	AUTHOR SECTION
+%----------------------------------------------------------------------------------------
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Auteurs:}\\
+$for(author)$
+$if(author.lastname)$
+    \textsc{$author.lastname$}
+    $if(author.firstname)$
+        $author.firstname$
+    $endif$
+$else$
+$author$
+$endif$
+$sep$\newline
+$endfor$
+\end{flushleft}
+\end{minipage}
+~
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Responsables:} \\
+\hfill
+$for(responsable)$
+$if(responsable.lastname)$
+    \textsc{$responsable.lastname$}
+    $if(responsable.firstname)$
+        $responsable.firstname$
+    $endif$
+$else$
+$responsable$
+$endif$
+$sep$\newline
+$endfor$
+\end{flushright}
+\end{minipage}\\[2cm]
+
+% If you don't want a supervisor, uncomment the two lines below and remove the section above
+%\Large \emph{Author:}\\
+%John \textsc{Smith}\\[3cm] % Your name
+
+
+%----------------------------------------------------------------------------------------
+%	DATE SECTION
+%----------------------------------------------------------------------------------------
+{\large $if(date)$$date$$else$\today$endif$}\\[1cm] % Date, change the \today to a set date if you want to be precise
+%----------------------------------------------------------------------------------------
+%	ABSTRACT SECTION
+%----------------------------------------------------------------------------------------
+$if(abstract)$
+$abstract$
+$endif$
+
+\vfill % Fill the rest of the page with whitespace before the logo
+%----------------------------------------------------------------------------------------
+%	LOGO SECTION
+%----------------------------------------------------------------------------------------
+$if(project_logo)$
+\includegraphics$if(project_logo_scale)$[scale=$project_logo_scale$]$endif${$project_logo$}\\[2cm]
+$endif$
+$if(institut.logo)$
+\includegraphics$if(institut.logo_scale)$[scale=$institut.logo_scale$]$endif${$institut.logo$}\\[1cm]
+$endif$
+%----------------------------------------------------------------------------------------
+\restoregeometry
+\end{titlepage}
+
+%----------------------------------------------------------------------------------------
+% SUMMARY CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\renewcommand{\thepage}{\roman{page}} % Change page numbers to roman
+$if(toc)$
+{
+\hypersetup{linkcolor=black}
+\setcounter{tocdepth}{$toc-depth$}
+\tableofcontents
+}
+$endif$
+\iftotalfigures
+  \listoffigures
+\fi
+
+\newpage
+\setcounter{page}{1}
+\renewcommand\thepage{\arabic{page}} % Change page numbers to arabic
+
+%----------------------------------------------------------------------------------------
+% File body
+%----------------------------------------------------------------------------------------
+
+$if(alignment)$
+\begin{$alignment$}
+$endif$
+
+$body$
+
+$if(alignment)$
+\end{$alignment$}
+$endif$
+
+
+\end{document}

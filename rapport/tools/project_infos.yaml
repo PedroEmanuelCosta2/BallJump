@@ -1,0 +1,48 @@
+---
+title: BallJump
+subtitle: Développement mobile
+lang: fr
+language: french
+author:
+- lastname: Da Cruz Costa
+  firstname: Pedro Emmanuel
+- lastname: Piquerez
+  firstname: Thibaut
+- lastname: Pedretti
+  firstname: Maël
+
+responsable:
+- lastname: Rizzoti
+  firstname: Aïcha
+- lastname: Jupil
+  firstname: Dany
+
+date: \today
+pagesize: a4
+
+institut:
+  name: Haute école arc
+  logo: img/logo
+  logo_scale: 0.6
+
+#project_logo: <logo>
+#project_logo_scale: <scale>
+
+# styles
+#alignment: <alignment>
+fontsize: 12pt
+colorlinks: darkblue
+
+documentclass: scrreprt
+documentoptions: twoside
+
+numbersections: true
+
+toc: true
+toc-depth: 2
+lof: true
+
+abstract: |
+    Ce document présente le développement d'un jeu mobile destiné à la plateforme Android
+
+---

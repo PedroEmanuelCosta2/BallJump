@@ -39,12 +39,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     private Bitmap bitmapPlateform;
     private Bitmap bitmapPlateformRed;
     private Paint paint;
+    private Paint paintRect;
     private SensorAccelerationActivity sensorAccelerationActivity;
     private List<Plateform> plateformArrayList;
     private int score = 0;
     private boolean isShifting = false;
     private Plateform lastPlateform;
     int deltaYPlatform=60;
+    private boolean isPlaying=false;
 
     public GamePanel(SensorAccelerationActivity sensorAccelerationActivity){
 
@@ -59,6 +61,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
         //Make gamePanel focusable so it can handle events
         setFocusable(true);
+        setZOrderOnTop(false);
 
     }
 
@@ -90,6 +93,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
         //boolean retry = true;
         //while (retry) {
+
             try {
                 mainThread.setRunning(false);
                 mainThread.join();
@@ -111,8 +115,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         plateformArrayList = new ArrayList<Plateform>();
         plateformsGeneration(HEIGHT-150,0, deltaYPlatform, plateformArrayList);
         paint = new Paint();
-        paint.setColor(Color.BLACK);
-        paint.setTextSize(20);
+        paint.setColor(Color.WHITE);
+        paint.setTextSize(40);
+        paintRect = new Paint();
+        paintRect.setColor(Color.GRAY);
+        paintRect.setAlpha(200);
+
         mainThread.setRunning(true);
         mainThread.start();
     }
@@ -121,54 +129,59 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
-                player.jump();
+
+                if(event.getX()>WIDTH-200 && event.getY()<200)
+                {
+                    isPlaying=false;
+                }
+                else
+                {
+                    isPlaying=true;
+                }
         }
         return super.onTouchEvent(event);
     }
 
     public void update(){
-        if (score >= 8000){
-            deltaYPlatform = 100;
-        }
-        for(int i = 0; i < plateformArrayList.size(); i++)
-        {
-            Plateform p = plateformArrayList.get(i);
-            if(player.collision(p))
-            {
-                if(p.getBreakable() == 0){
-                    plateformArrayList.remove(i);
-                }
-                player.jump();
+        if(isPlaying) {
+            if (score >= 8000) {
+                deltaYPlatform = 100;
             }
-        }
-
-        int delta=-player.update();
-
-        isShifting = delta > 0 ? true : false;
-
-        synchronized (plateformArrayList)
-        {
-            List<Plateform> plateformArrayListCopy = new ArrayList<Plateform>();
-            for(Iterator<Plateform> it = plateformArrayList.iterator(); it.hasNext();)
-            {
-                it.next();
-                for(Plateform p2 : plateformArrayList)
-                {
-                    p2.shift(delta/4);
+            for (int i = 0; i < plateformArrayList.size(); i++) {
+                Plateform p = plateformArrayList.get(i);
+                if (player.collision(p)) {
+                    if (p.getBreakable() == 0) {
+                        plateformArrayList.remove(i);
+                    }
+                    player.jump();
                 }
-                if(lastPlateform.getY()>deltaYPlatform+10)
-                {
-                    addPlatform(plateformArrayListCopy);
-                }
-
             }
-            plateformArrayList.addAll(plateformArrayListCopy);
-        }
-        plateformsDestruction();
 
-        if (player.gameOver()){
-            storeScore();
-            sensorAccelerationActivity.gameOver();
+            int delta = -player.update();
+
+            isShifting = delta > 0 ? true : false;
+
+            synchronized (plateformArrayList) {
+                List<Plateform> plateformArrayListCopy = new ArrayList<Plateform>();
+                for (Iterator<Plateform> it = plateformArrayList.iterator(); it.hasNext(); ) {
+                    it.next();
+                    for (Plateform p2 : plateformArrayList) {
+                        p2.shift(delta / 4);
+                    }
+                    if (lastPlateform.getY() > deltaYPlatform + 10) {
+                        addPlatform(plateformArrayListCopy);
+                    }
+
+                }
+                plateformArrayList.addAll(plateformArrayListCopy);
+            }
+            plateformsDestruction();
+
+            if (player.gameOver()) {
+                storeScore();
+                sensorAccelerationActivity.gameOver();
+            }
+
         }
     }
 
@@ -235,19 +248,39 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         final float scaleFactorX = getWidth()/(WIDTH*1.f);
         final float scaleFactorY = getHeight()/(HEIGHT*1.f);
         if(canvas != null){
-            System.out.println("draw");
-            final int savedState = canvas.save();
-            canvas.scale(scaleFactorX, scaleFactorY);
-            backGround.draw(canvas);
 
+            //final int savedState = canvas.save();
+
+            canvas.scale(scaleFactorX, scaleFactorY);
+
+            backGround.draw(canvas);
             player.draw(canvas);
             drawPlateforms(canvas);
+            backGroundAcid.draw(canvas);
+            canvas.drawText(score+" pts",10,40, paint);
+
+
+            paintRect.setColor(Color.WHITE);
+            paintRect.setAlpha(255);
+            canvas.drawRect(WIDTH-60,10,WIDTH-50,40,paintRect);
+            canvas.drawRect(WIDTH-40,10,WIDTH-30,40,paintRect);
+
             if (player.getSpeed()>0 && isShifting)
                 score += player.getSpeed();
-            backGroundAcid.draw(canvas);
-            canvas.drawText(score+" pts",10,20, paint);
-            canvas.restoreToCount(savedState);
+
+            if(!isPlaying)
+            {
+                paintRect.setColor(Color.GRAY);
+                paintRect.setAlpha(200);
+                canvas.drawRect(0,0,WIDTH,HEIGHT,paintRect);
+                canvas.drawText("Press to start",150,HEIGHT/2,paint);
+            }
+
+
+            //canvas.restoreToCount(savedState);
         }
+
+
     }
 
 

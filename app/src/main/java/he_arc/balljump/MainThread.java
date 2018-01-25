@@ -28,7 +28,7 @@ public class MainThread extends Thread {
 
     @Override
     public void run() {
-        final int FRAMES_PER_SECOND = 30;
+        final int FRAMES_PER_SECOND = 60;
         final int SKIP_TICKS = 1000 / FRAMES_PER_SECOND;
         long next_game_tick = uptimeMillis();
         // uptimeMillis() returns the current number of milliseconds
@@ -37,29 +37,40 @@ public class MainThread extends Thread {
         long sleep_time = 0;
         while (running){
             canvas = null;
-            try {
+            try
+            {
                 this.lock();
-
-                synchronized (this.surfaceHolder){
+                synchronized (this.surfaceHolder)
+                {
                     this.gamePanel.update();
                     this.gamePanel.draw(canvas);
                 }
+                this.unlockAndPost(canvas);
                 next_game_tick += SKIP_TICKS;
                 sleep_time = next_game_tick - uptimeMillis();
-                if( sleep_time >= 0 ) {
+                if( sleep_time >= 0 )
+                {
                     Thread.sleep( sleep_time );
                 }
-                else {
-                    System.out.println("WE ARE LATE");
+                else
+                {
+                   // System.out.println("WE ARE LATE");
                 }
-            }catch (Exception e){
+            }
+            catch (Exception e)
+            {
                 e.printStackTrace();
-            }finally {
+            }
+            finally
+            {
                 if(canvas!=null)
                 {
-                    try {
+                    try
+                    {
                         unlockAndPost(canvas);
-                    }catch (Exception e){
+                    }
+                    catch (Exception e)
+                    {
                         e.printStackTrace();
                     }
                 }

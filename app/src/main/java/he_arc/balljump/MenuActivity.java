@@ -20,8 +20,10 @@ public class MenuActivity extends AppCompatActivity {
             public void onClick(View v)
             {
                 finish();
+                System.out.println("play clic");
                 Intent i = new Intent(MenuActivity.this, SensorAccelerationActivity.class);
                 startActivity(i);
+
             }
         });
 
