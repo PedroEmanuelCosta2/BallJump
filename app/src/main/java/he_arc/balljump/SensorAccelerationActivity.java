@@ -97,12 +97,10 @@ public class SensorAccelerationActivity extends AppCompatActivity  implements Se
 
     public void gameOver()
     {
-
         gamePanel.stopThread();
         finish();
         Intent gameOverIntent = new Intent(SensorAccelerationActivity.this, GameOver.class);
         startActivity(gameOverIntent);
-
     }
 }
 

@@ -11,8 +11,13 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -138,39 +143,32 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     }
 
     public void update(){
-        if(isPlaying)
-        {
-            if (score >= 8000){
+        if(isPlaying) {
+            if (score >= 8000) {
                 deltaYPlatform = 100;
             }
-            for(int i = 0; i < plateformArrayList.size(); i++)
-            {
+            for (int i = 0; i < plateformArrayList.size(); i++) {
                 Plateform p = plateformArrayList.get(i);
-                if(player.collision(p))
-                {
-                    if(p.getBreakable() == 0){
+                if (player.collision(p)) {
+                    if (p.getBreakable() == 0) {
                         plateformArrayList.remove(i);
                     }
                     player.jump();
                 }
             }
 
-            int delta=-player.update();
+            int delta = -player.update();
 
             isShifting = delta > 0 ? true : false;
 
-            synchronized (plateformArrayList)
-            {
+            synchronized (plateformArrayList) {
                 List<Plateform> plateformArrayListCopy = new ArrayList<Plateform>();
-                for(Iterator<Plateform> it = plateformArrayList.iterator(); it.hasNext();)
-                {
+                for (Iterator<Plateform> it = plateformArrayList.iterator(); it.hasNext(); ) {
                     it.next();
-                    for(Plateform p2 : plateformArrayList)
-                    {
-                        p2.shift(delta/4);
+                    for (Plateform p2 : plateformArrayList) {
+                        p2.shift(delta / 4);
                     }
-                    if(lastPlateform.getY()>deltaYPlatform+10)
-                    {
+                    if (lastPlateform.getY() > deltaYPlatform + 10) {
                         addPlatform(plateformArrayListCopy);
                     }
 
@@ -179,26 +177,23 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
             }
             plateformsDestruction();
 
-            if (player.gameOver()){
-
-
+            if (player.gameOver()) {
+                storeScore();
                 sensorAccelerationActivity.gameOver();
-
-
             }
-        }
 
+        }
     }
 
     private void storeScore(){
         try {
-            FileOutputStream fos = sensorAccelerationActivity.openFileOutput("trashList.txt", MODE_PRIVATE);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            FileOutputStream fos = getContext().openFileOutput("score.txt", Context.MODE_APPEND);
+            OutputStreamWriter osw = new OutputStreamWriter(fos);
 
-            oos.writeUTF("Player x : "+score);
+            osw.write(""+score+"\n");
 
+            osw.close();
             fos.close();
-            oos.close();
         } catch (Exception e) {
             e.printStackTrace();
 
