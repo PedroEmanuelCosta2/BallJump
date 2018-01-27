@@ -15,6 +15,30 @@ Le but du jeu est d’arriver le plus haut possible.
 Les plateformes se génèrent au fur et mesure que le personnage monte.
 Des items qui permettront de débloquer des bonus se trouveront également dans le décore.
 
+Structure
+=========
+
+MenuActivity
+^^^^^^^^^^^^
+
+Statistics
+^^^^^^^^^^
+
+SensorActivity
+^^^^^^^^^^^^^^
+
+GamePanel
+^^^^^^^^^
+
+plateform
+^^^^^^^^^
+
+Player
+^^^^^^
+
+GameOver
+^^^^^^^^
+
 Fonctionnalités
 ===============
 
@@ -23,7 +47,7 @@ Cette section développe les fonctionnalités du téléphone qui sont utilisés 
 Capteurs
 ^^^^^^^^
 
-Dans le cadre de ce projet, le capteur utilisé est l'accéléromètre.
+Dans le cadre de ce projet, les capteur utilisé sont l'accéléromètre et le magnétomètre.
 
 Selon Wikipédia_,
 
@@ -32,14 +56,24 @@ Selon Wikipédia_,
 Il s'agit plus simplement d'un capteur qui permet de détecter les mouvements du téléphone.
 Dans ce projet, il est utilisé pour détecter les changements d'orientation afin de déplacer le joueur sur l'axe horizontal du jeu.
 
+Le magnétomètre lui est un capteur qui détecte les changements dans le champ magnétiques avoisinant.
+
+Dans une utilisation combinée, ces deux capteurs permettent de détecter l'inclinaison du téléphone et donc de déplacer le joueur.
+
+Plateformes
+^^^^^^^^^^^
+
+
+Rebonds
+^^^^^^^
+
+Statistiques
+^^^^^^^^^^^^
+
 Persistance
 ^^^^^^^^^^^
 
-Les meilleurs scores du joueurs sont sauvegardés.
-
-Bugs connus
-===========
-
+Dans le but de pouvoir créer des statistiques, les scores sont sauvegardés dans un fichier texte. Afin de simplifier le stockage et n'ayant qu'un champ à sauvegarder, cette solution est avantageuse comparée à une utilisation d'une base de données.
 
 Problèmes rencontrés
 ====================
@@ -70,15 +104,17 @@ Liés au développement
 ^^^^^^^^^^^^^^^^^^^^^
 
 
+Bugs connus
+===========
+
 Auto-critique
 =============
-
 
 Conclusion
 ==========
 
 
-.. Bibliographi
+.. Bibliographie
 
 .. _Wikipédia: https://fr.wikipedia.org/wiki/Accéléromètre
 .. _RAM: https://fr.wikipedia.org/wiki/Mémoire_vive

@@ -38,11 +38,14 @@ documentoptions: twoside
 
 numbersections: true
 
+# specify if you want your abstract on title page or on a second page
+abstractontitlepage: true
+
 toc: true
 toc-depth: 2
 lof: true
 
 abstract: |
-    Ce document présente le développement d'un jeu mobile destiné à la plateforme Android
-
+    Le projet BallJump est réalisé dans le cadre du cours de développement mobile, une branche de 3ème année de Bachelor au sein de la Haute-École Arc — Ingénierie, section Développement Logiciel et Multimédia. Le présent document décrit le déroulement du projet et présente les fonctionnalités implémentées.
+    
 ---
