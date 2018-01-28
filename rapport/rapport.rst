@@ -21,11 +21,21 @@ Structure
 MenuActivity
 ^^^^^^^^^^^^
 
+Première activitée à être lancé lors de l'ouverture de l'application. Elle permet juste d'afficher le menu principal qui contient les boutons suivant.
+* PLAY : lancer le jeu
+* STATISTICS : affiche des statistiques sur les scores
+* SHARE	: partage de scores en bluetooth
+* CREDIT : crédit du jeu
+
+Ensuite en fonction des boutons pressés l'activité va lancer les activités correspondante.
+
 Statistics
 ^^^^^^^^^^
 
-SensorActivity
-^^^^^^^^^^^^^^
+SensorAccelerationActivity
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Cette classe s'occupe d'instancier le panel ainsi que de gèrer les capteurs. Elle utilise l'accéléromètre et le magnétomètre pour pouvoir trouver l'angle de l'appareil. Pour cela la classe implémente SensorEventListener et doit surcharger la fonction onSensorChanged() qui est appelé a chaque changement de valeur des capteurs. Dans cette fonction on récupère la valeur des deux capteurs et on utilise la classe SensorManager pour calculer l'angle de la manière suivante. On passe les résultats des capteurs dans la fonction getRotationMatrix() de la classe SensorManager qui prends comme paramètre 4 tableau, 2 qui viennent des capteurs et 2 tableau dans lesquels seront stocké les résultat. Un de ces tableau correspond a une matrice de rotation qui est passée dans une autre fonction de SensorManager qui se nomme getOrientation() qui elle va retourné un tableau d'angle selon tous les axes. Donc on passe l'angle qui nons intéresse au panel pour qu'il fasse bouger le personnage du jeu.
 
 GamePanel
 ^^^^^^^^^
@@ -67,6 +77,10 @@ Plateformes
 Rebonds
 ^^^^^^^
 
+Pour les rebonds c'est assez simple, quand une colision est détecté entre le joueur et une plateforme on assigne une vitesse au joueur positive. Cela a pour éffet de faire monter le personnage. A chaque déplacement du joueur la vitesse est décrémentée. Donc il va monter de moins en moins vite et ensuite la vitesse va devenir négative par conséquent le joueur va redéscendre jusqu'à atteindre une vitesse maximum. Ensuite si il entre a nouveu en collision il va remonter à nouveau.
+
+Le joueur monte seulement jusqu'à le moitié de l'écran et ensuite se sont les plateformes qui descandent ce qui donne l'impression que le joueur monte. Cette manière de faire évite que le joueur sorte de l'écran vers le haut si il saute plusieurs fois de suite.
+
 Statistiques
 ^^^^^^^^^^^^
 
@@ -103,6 +117,17 @@ Il est donc possible que le jeu se déroule plus lentement sur certains appareil
 Liés au développement
 ^^^^^^^^^^^^^^^^^^^^^
 
+Collisions pas détectées
+""""""""""""""""""""""""
+
+Il y avait un problème quand le joueur retombait à la vitesse maximale car le joueur pouvait passé de dessus a en dessous d'une plateforme en une frame. Donc quand on vérifie les collisions il n'y en a pas. Pour régler le problème nous avons dû augmenter l'épasseur des plateformes virtuellement. C'est a dire que visuellement elles ne chagent pas mais dans la détection des collisions elles sont plus éapaisse. De cette manière il n'est plus possible de traveré une plateforme en une seul frame.
+
+Panel qui ne se redéssine pas
+"""""""""""""""""""""""""""""
+
+Le problème était que lorsqu'on pressait sur PLAY dans le menu principal une page blanche s'affichait parfois pendant plusieurs dizaine de secondes. Après quelques recherches on a trouvé que le problème venait du fait qu'on lockait le canvas pour pouvoir déssiner dessus mais on unlockais pas au bon endroit qui avait pour effet de ne pas redessiner les modifications.
+
+Après cette modification on a remarqué que l'affichage mettait un petit temps de chargement donc pour règler le problème le jeu ne démarre pas tout pendant que le joueur n'a pas touché l'écran comme cela le joueur démarre quand il est prêt-
 
 Bugs connus
 ===========

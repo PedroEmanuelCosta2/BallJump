@@ -14,6 +14,7 @@ import android.widget.TextView;
 import 	android.content.Intent;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 public class BluetoothActivity extends AppCompatActivity {
 
@@ -24,6 +25,7 @@ public class BluetoothActivity extends AppCompatActivity {
 
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
+            System.out.println("onReceive perso");
             String action = intent.getAction();
             // Quand la recherche trouve un terminal
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
@@ -45,12 +47,12 @@ public class BluetoothActivity extends AppCompatActivity {
         if (blueAdapter == null)
         {
             TextView text = findViewById(R.id.textTest);
-            text.setText("Non connecté");
+            text.setText("Bluetooth pas trouvé");
         }
         else
         {
             TextView text = findViewById(R.id.textTest);
-            text.setText("Connecté");
+            text.setText("Bluetooth  trouvé");
         }
 
         if (!blueAdapter.isEnabled())
@@ -59,29 +61,31 @@ public class BluetoothActivity extends AppCompatActivity {
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         }
 
-
-
-
-    // Create the adapter to convert the array to views
+        // Create the adapter to convert the array to views
         adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, array);
-// Attach the adapter to a ListView
+        // Attach the adapter to a ListView
         ListView listView = (ListView) findViewById(R.id.listDevices);
         listView.setAdapter(adapter);
-
-
-
+        Set<BluetoothDevice> devices = blueAdapter.getBondedDevices();
+        for (BluetoothDevice blueDevice : devices) {
+            array.add(blueDevice.getName());
+        }
         array.add("test");
-
+        blueAdapter.startDiscovery();
         // On crée un BroadcastReceiver pour ACTION_FOUND
-
-// Inscrire le BroadcastReceiver
+        // Inscrire le BroadcastReceiver
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         registerReceiver(receiver, filter); // N'oubliez pas de le désinscrire lors du OnDestroy() !
 
+
+
+
+
+        System.out.println("test");
         /*Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
         boolean timeVisible=false;
-        discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, timeVisible); // Cette ligne permet de définir une durée de visibilité de notre choix
-        startActivityForResult(discoverableIntent, REQUEST_DISCOVERABLE_BT);*/
+        discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 1000); // Cette ligne permet de définir une durée de visibilité de notre choix
+        startActivity(discoverableIntent);*/
 
     }
 }
