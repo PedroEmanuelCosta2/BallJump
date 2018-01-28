@@ -71,14 +71,14 @@ public class BluetoothActivity extends AppCompatActivity {
             array.add(blueDevice.getName());
         }
         array.add("test");
-        blueAdapter.startDiscovery();
+
         // On crée un BroadcastReceiver pour ACTION_FOUND
         // Inscrire le BroadcastReceiver
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         registerReceiver(receiver, filter); // N'oubliez pas de le désinscrire lors du OnDestroy() !
 
 
-
+        blueAdapter.startDiscovery();
 
 
         System.out.println("test");
