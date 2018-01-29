@@ -46,6 +46,7 @@ toc-depth: 2
 lof: true
 
 abstract: |
-    Le projet BallJump est réalisé dans le cadre du cours de développement mobile, une branche de 3ème année de Bachelor au sein de la Haute-École Arc — Ingénierie, section Développement Logiciel et Multimédia. Le présent document décrit le déroulement du projet et présente les fonctionnalités implémentées.
-    
+    \section*{Résumé}
+    Le projet BallJump est réalisé dans le cadre du cours de développement mobile, une branche de 3ème année de Bachelor au sein de la Haute-École Arc — Ingénierie, section Développement Logiciel et Multimédia. Ball Jump est un jeu mobile qui se déroule sur le principe du jeu "Doodle Jump". Le présent document décrit le déroulement du projet et présente les fonctionnalités implémentées.
+
 ---
