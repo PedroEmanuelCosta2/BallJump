@@ -31,8 +31,7 @@ public class MenuActivity extends AppCompatActivity {
         Button buttonShare = findViewById(R.id.buttonShare);
         buttonShare.setOnClickListener(new View.OnClickListener() {
                                            public void onClick(View v) {
-
-                                               Intent i = new Intent(MenuActivity.this, BluetoothActivity.class);
+                                               Intent i = new Intent(MenuActivity.this, ShareActivity.class);
                                                startActivity(i);
                                            }
                                        });
