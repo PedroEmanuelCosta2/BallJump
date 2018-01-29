@@ -16,20 +16,33 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".SensorAccelerationActivity" />
-        <activity android:name=".MenuActivity">
+        android:theme="@style/AppTheme"
+        >
+
+        <activity android:name=".SensorAccelerationActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".MenuActivity"
+            android:screenOrientation="portrait">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GameOver" />
-        <activity android:name=".Statistics" />
+
         <activity android:name=".ShareActivity" />
         <activity android:name=".ServerActivity" />
         <activity android:name=".ClientActivity"></activity>
+        <activity android:name=".GameOver"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".StatisticsAtivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".CreditActivity"
+            android:screenOrientation="portrait"></activity>
+
+>>>>>>> 13d325640b9c8273996ad2ce623dc8cb01f1aa9a
     </application>
 
 </manifest>
