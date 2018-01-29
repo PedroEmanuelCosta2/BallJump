@@ -59,6 +59,23 @@ GameOver
 
 L'activité Game Over intervient lorsque le joueur tombe mais n'arrive pas à rebondir sur une plateforme. Cette activité permet de soit directement jouer une nouvelle partie, ou alors de retourner au menu afin d'observer les scores par exemple. 
 
+ShareActivity
+^^^^^^^^^^^^^
+
+Permet de choisir entre paratger son score ou reçevoir celui d'un autre joueur. Donc pour que 2 joueurs se partagent les scores un joueur doit presser le bouton GET SCORE et l'autre doit presser SEND SCORE.
+
+ServerActivity
+^^^^^^^^^^^^^^
+
+Créer le serveur et affiche une liste d'adresses ip. Quand un joueur se connecte et partage son score il est également affiché.
+
+ClientActivity
+^^^^^^^^^^^^^^
+
+Possède une zone de texte éditable pour entrer l'adresse IP du serveur et un texte qui affiche si le client est connecté ou pas. Cette activité possède également deux boutons, un qui permet de se connecter au serveur et un autre qui permet d'envoyer le score une fois connecté au serveur. 
+
+
+
 Fonctionnalités
 ===============
 
@@ -96,6 +113,17 @@ Persistance
 ^^^^^^^^^^^
 
 Dans le but de pouvoir créer des statistiques, les scores sont sauvegardés dans un fichier texte. Afin de simplifier le stockage et n'ayant qu'un champ à sauvegarder, cette solution est avantageuse comparée à une utilisation d'une base de données.
+
+Partage des scores
+^^^^^^^^^^^^^^^^^^
+
+Au départ nous avions décidé de faire le partage des scores par bluetooth mais nous ne somme pas pavenu à le faire fonctionner. Donc nous avons décideé de faire cela avec des sockets. Pour cela quand on va sur le bouton SHARE une page s'affiche avec deux boutons, un pour recevoir le score d'un autre joueur (le serveur) et l'autre pour envoyer son score (le client).  
+
+Serveur:
+Cela va afficher une liste d'adresses IPs car nous ne somme pas parvenu a déterminer laquelle était la bonne alors il faut que le client essaye de se connecter avec les adresses listées jusqu'à qu'il puisse se connecter. Ensuite le serveur va afficher la liste des scores de l'autre joueur.
+
+Client:
+Une zone de texte permet d'entrer l'adresse IP du serveur et un bouton CONNECT permet de se connecter au serveur. Un texte va afficher si la connection a fonctionnée ou non. Un deuxième bouton permet de d'envoyer le score au serveur correspondant. 
 
 Problèmes rencontrés
 ====================
