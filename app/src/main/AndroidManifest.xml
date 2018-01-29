@@ -11,21 +11,28 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        >
 
-        <activity android:name=".SensorAccelerationActivity" />
+        <activity android:name=".SensorAccelerationActivity"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".MenuActivity">
+        <activity android:name=".MenuActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GameOver" />
-        <activity android:name=".BluetoothActivity"></activity>
-
-        <activity android:name=".Statistics"></activity>
+        <activity android:name=".GameOver"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".BluetoothActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".StatisticsAtivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".CreditActivity"
+            android:screenOrientation="portrait"></activity>
 
     </application>
 

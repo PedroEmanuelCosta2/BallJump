@@ -19,8 +19,6 @@ public class MenuActivity extends AppCompatActivity {
         {
             public void onClick(View v)
             {
-                finish();
-                System.out.println("play clic");
                 Intent i = new Intent(MenuActivity.this, SensorAccelerationActivity.class);
                 startActivity(i);
 
@@ -30,18 +28,27 @@ public class MenuActivity extends AppCompatActivity {
 
         Button buttonShare = findViewById(R.id.buttonShare);
         buttonShare.setOnClickListener(new View.OnClickListener() {
-                                           public void onClick(View v) {
-
-                                               Intent i = new Intent(MenuActivity.this, BluetoothActivity.class);
-                                               startActivity(i);
-                                           }
-                                       });
+            public void onClick(View v) {
+                Intent i = new Intent(MenuActivity.this, BluetoothActivity.class);
+                startActivity(i);
+            }
+        });
 
         Button buttonStatistics = findViewById(R.id.buttonStatistics);
         buttonStatistics.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MenuActivity.this, Statistics.class);
+                Intent i = new Intent(MenuActivity.this, StatisticsAtivity.class);
+                startActivity(i);
+            }
+        });
+
+        Button buttonCredit = findViewById(R.id.buttonCredit);
+        buttonCredit.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                Intent i = new Intent(MenuActivity.this, CreditActivity.class);
                 startActivity(i);
 
             }

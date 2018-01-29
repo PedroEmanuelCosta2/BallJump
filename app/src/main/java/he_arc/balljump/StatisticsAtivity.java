@@ -2,13 +2,11 @@ package he_arc.balljump;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +15,7 @@ import java.util.List;
  * Created by pedrocosta on 19.01.18.
  */
 
-public class Statistics extends AppCompatActivity {
+public class StatisticsAtivity extends AppCompatActivity {
 
     private List<String> statList;
     private List<String> statHeader;
@@ -75,7 +73,7 @@ public class Statistics extends AppCompatActivity {
 
         List<String> averageList = new ArrayList<>();
         List<String> bestScoreList = new ArrayList<>();
-        List<String> last5BestScoresList = new ArrayList<>();
+        List<String> last5ScoresList = new ArrayList<>();
 
         for (String score : statList) {
 
@@ -85,8 +83,8 @@ public class Statistics extends AppCompatActivity {
                 best = integerValueOfString;
             }
 
-            if (cmpt < 5){
-                last5BestScoresList.add(score + " pt(s)");
+            if (cmpt >= statList.size() - 5){
+                last5ScoresList.add(score + " pt(s)");
             }
 
             total += integerValueOfString;
@@ -100,7 +98,7 @@ public class Statistics extends AppCompatActivity {
 
         statChildren.put(statHeader.get(0),averageList);
         statChildren.put(statHeader.get(1),bestScoreList);
-        statChildren.put(statHeader.get(2),last5BestScoresList);
+        statChildren.put(statHeader.get(2),last5ScoresList);
 
         statAdapter.notifyDataSetChanged();
     }
