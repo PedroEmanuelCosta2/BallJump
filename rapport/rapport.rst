@@ -32,6 +32,8 @@ Ensuite en fonction des boutons pressés l'activité va lancer les activités co
 Statistics
 ^^^^^^^^^^
 
+Statistics va lire les données d'un fichier .txt afin d'en calculer une moyenne, d'en afficher le meilleur score et le score des cinq dernières parties. Les score seront affichés à l'aide d'une expandable list view, cette dernière est légèrement plus complexe qu'une liste car son adapteur est plutôt difficile d'utilisation. C'est pour cela, qu'il a fallu en créé un qui étend la classe BaseExpandableListAdapter pour en redéfinir ses fonctions en utilisant une liste (correspondants aux éléments sous un titre) et un dictionnaire qui contiendra comme clé le titre et comme valeur les listes.
+
 SensorAccelerationActivity
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -40,14 +42,22 @@ Cette classe s'occupe d'instancier le panel ainsi que de gèrer les capteurs. El
 GamePanel
 ^^^^^^^^^
 
-plateform
+Cette classe est la classe principale de notre projet, c'est dans cette dernière que toutes les fonctions essentielles sont appelées et utilisées pour le bon fonctionnement du jeu. Parmis ces fonctions se trouve la fonction update qui se chargera de mettre à jour les mouvements de tous les objets qui sont affichés à l'aide de la fonction draw. C'est dans le GamePanel que les appels de la logique du jeu se trouvent, par exemple lorsque le joueur meurt on appelle la fonction de SensorAccelerationActivity qui permet de déplacer le joueur dans un menu de GameOver.
+
+Plateform
 ^^^^^^^^^
+
+Afin de créer ces blocs permettant au joueur de rebondir, nous avons mis en place une classe qui créera des rectangles servant de plateformes. Dans cette classe, nous trouverons les fonctions qui permettent de les déplacer, les redessiner et d'instaurer une logique permettant de rendre une plateforme sur 40 "destructible". Destructible signifie qu'une fois que le joueur rebondit sur la plateforme, cette dernière se détruit. 
 
 Player
 ^^^^^^
 
+Dans la classe du joueur, on implémente les fonctions de ses mouvements, de ses collision avec une plateforme et de son rebond continuel. 
+
 GameOver
 ^^^^^^^^
+
+L'activité Game Over intervient lorsque le joueur tombe mais n'arrive pas à rebondir sur une plateforme. Cette activité permet de soit directement jouer une nouvelle partie, ou alors de retourner au menu afin d'observer les scores par exemple. 
 
 Fonctionnalités
 ===============
@@ -73,6 +83,7 @@ Dans une utilisation combinée, ces deux capteurs permettent de détecter l'incl
 Plateformes
 ^^^^^^^^^^^
 
+La génération aléatoire des plateformes se fait dans la fonction plateformsGeneration se trouvant dans le GamePanel. On va tester si le joueur atteint la moitié de l'écran afin de générer un ensemble de plateformes sur un delta que le joueur a pu grimper. De cette façon on a l'impression que le joueur monte de façon fluide.  
 
 Rebonds
 ^^^^^^^
@@ -80,9 +91,6 @@ Rebonds
 Pour les rebonds c'est assez simple, quand une colision est détecté entre le joueur et une plateforme on assigne une vitesse au joueur positive. Cela a pour éffet de faire monter le personnage. A chaque déplacement du joueur la vitesse est décrémentée. Donc il va monter de moins en moins vite et ensuite la vitesse va devenir négative par conséquent le joueur va redéscendre jusqu'à atteindre une vitesse maximum. Ensuite si il entre a nouveu en collision il va remonter à nouveau.
 
 Le joueur monte seulement jusqu'à le moitié de l'écran et ensuite se sont les plateformes qui descandent ce qui donne l'impression que le joueur monte. Cette manière de faire évite que le joueur sorte de l'écran vers le haut si il saute plusieurs fois de suite.
-
-Statistiques
-^^^^^^^^^^^^
 
 Persistance
 ^^^^^^^^^^^
